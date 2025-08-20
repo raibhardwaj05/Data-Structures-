@@ -28,6 +28,17 @@ void createArray(struct myArray *struct_add, int tsize, int usize){
     
 }
 
+void setValue(struct myArray *array){
+    int n;
+    for (int i = 0; i < array->used_size; i++)
+    {
+        printf("Enter element %d", (i+1));
+        scanf("%d", &n);
+        (array->element1_ptr)[i] = n;
+    }
+    
+}
+
 void show(struct myArray *array){
     for(int i = 0; i < array->used_size; i++){
         printf("%d ", (array->element1_ptr)[i]);
