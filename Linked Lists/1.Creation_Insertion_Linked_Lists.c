@@ -144,14 +144,6 @@ int main()
             head = insert_middle(head);
             break;
 
-        case 4:
-
-            break;
-
-        case 5:
-
-            break;
-
         default:
             printf("\nDo you want to continue? (0/1): ");
             scanf("%d", &choice);
