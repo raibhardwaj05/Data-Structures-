@@ -46,7 +46,8 @@ node *create_node(node *head)
     return head;
 }
 
-node *insert_middle(node *head){
+node *insert_middle(node *head)
+{
     node *temp, *newnode;
 
     int location;
@@ -66,14 +67,16 @@ node *insert_middle(node *head){
         head = temp = newnode;
         printf("\nThis is 1st node created!");
     }
-    else{
+    else
+    {
         if (location == 1)
         {
             printf("\nCreating node at 1st place");
             newnode->next = head;
             head = newnode;
         }
-        else{
+        else
+        {
             int i;
             for (i = 1; i < location - 1 && temp != NULL; i++)
             {
@@ -84,14 +87,13 @@ node *insert_middle(node *head){
             {
                 printf("\nLocation is beyond length, inserting at end");
             }
-            
+
             newnode->next = temp->next;
             temp->next = newnode;
         }
     }
 
     return head;
-    
 }
 
 void display(node *head)
@@ -112,7 +114,6 @@ void display(node *head)
             temp = temp->next;
         }
         printf("\n");
-        
     }
 }
 
