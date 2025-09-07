@@ -6,6 +6,7 @@ typedef struct node
 {
     int data;
     struct node *next; // self referencing structure
+    struct node *prev; // self referencing structure
 } node;
 
 // Create nodes OR Insert new nodes at the end
@@ -14,19 +15,19 @@ node *create_node_insert_end(node *head)
     node *temp, *newnode;
     int num_nodes;
 
-    printf("\nNumber of nodes to be created: ");
+    printf("\nNumber of nodes?: ");
     scanf("%d", &num_nodes);
 
     while (num_nodes > 0)
     {
+        temp = head;
 
         newnode = (node *)malloc(sizeof(node));
-        newnode->next = NULL; // to avoid garbage value
+        newnode->next = NULL;
+        newnode->prev = NULL;
 
-        printf("Enter Data: ");
+        printf("\nEnter Data: ");
         scanf("%d", &newnode->data);
-
-        temp = head;
 
         if (head == NULL)
         {
@@ -38,9 +39,10 @@ node *create_node_insert_end(node *head)
             {
                 temp = temp->next;
             }
+
+            newnode->prev = temp;
             temp->next = newnode;
         }
-
         num_nodes--;
     }
 
@@ -48,24 +50,26 @@ node *create_node_insert_end(node *head)
 }
 
 // insert node at first
-node *insert_first(node *head){
+node *insert_first(node *head)
+{
     node *temp, *newnode;
-    int data;
 
     newnode = (node *)malloc(sizeof(node));
     newnode->next = NULL;
+    newnode->prev = NULL;
 
-    printf("\nEnter data: ");
+    printf("\nEnter Data: ");
     scanf("%d", &newnode->data);
 
     temp = head;
 
     if (head == NULL)
     {
-        printf("\nCreating first node!\n");
         head = temp = newnode;
     }
-    else{
+    else
+    {
+        temp->prev = newnode;
         newnode->next = temp;
         head = newnode;
     }
@@ -77,15 +81,15 @@ node *insert_first(node *head){
 node *insert_middle(node *head)
 {
     node *temp, *newnode;
-
     int location;
-    printf("\nEnter the location: ");
+    printf("\nEnter Location: ");
     scanf("%d", &location);
 
     newnode = (node *)malloc(sizeof(node));
     newnode->next = NULL;
+    newnode->prev = NULL;
 
-    printf("\nEnter data: ");
+    printf("\nEnter Data: ");
     scanf("%d", &newnode->data);
 
     temp = head;
@@ -93,30 +97,37 @@ node *insert_middle(node *head)
     if (head == NULL)
     {
         head = temp = newnode;
-        printf("\nThis is 1st node created!");
     }
     else
     {
         if (location == 1)
         {
-            printf("\nCreating node at 1st place");
-            newnode->next = head;
+            newnode->next = temp;
+            temp->prev = newnode;
             head = newnode;
         }
         else
         {
             int i;
-            for (i = 2; i < location - 1 && temp != NULL; i++)
+            for (i = 1; i < (location - 1) && temp != NULL; i++)
             {
                 temp = temp->next;
             }
 
-            if (i < location - 1)
+            if (i < (location - 1))
             {
                 printf("\nLocation is beyond length, inserting at end");
             }
 
             newnode->next = temp->next;
+            newnode->prev = temp;
+
+            // this avoids the segmentation error ie if temp->next is NULL then error will occur
+            if (temp->next != NULL)
+            {
+                temp->next->prev = newnode;
+            }
+
             temp->next = newnode;
         }
     }
@@ -146,86 +157,138 @@ void display(node *head)
     }
 }
 
+// reverse display the list
+void Reverse_display(node *head)
+{
+    node *temp, *last = NULL;
+    temp = head;
+
+    if (head == NULL)
+    {
+        printf("\nNo Node is created");
+    }
+    else
+    {
+        while (temp != NULL)
+        {
+            last = temp;
+            temp = temp->next;
+        }
+
+        printf("\nReversed Data in the nodes: ");
+        while (last != NULL)
+        {   
+            printf("%d ", last->data);
+            last = last->prev;
+        }
+        printf("\n");
+    }
+}
+
 // delete first node
-node *delete_first(node *head){
+node *delete_first(node *head)
+{
     node *temp;
 
     temp = head;
 
     if (head == NULL)
     {
-        printf("\nList Empty\n");
+        printf("\nList Empty!\n");
     }
-    else{
-        head = temp->next;
+    else
+    {
+        head = head->next;
+
+        // if list was of only one node then head = head->next will be null
+        if (head != NULL)
+        {
+            head->prev = NULL;
+        }
+
         free(temp);
     }
-
-    return head;    
+    return head;
 }
 
 // delete from middle node
-node *delete_middle(node *head){
+node *delete_middle(node *head)
+{
     node *temp, *denode;
     int location;
 
-    temp = head;
-    denode = head->next;
-
-    printf("\nEnter the location: ");
+    printf("\nEnter Location: ");
     scanf("%d", &location);
 
     if (head == NULL)
     {
-        printf("\nList Empty\n");
-        return head;
+        printf("\nList Empty!\n");
     }
-
-    if (location == 1)
+    else
     {
-        head = temp->next;
-        free(temp);
-    }
-    
-    else{
-        int i = 2;
-        for (i = 2; i < (location) && temp != NULL; i++)
+        if (location == 1)
         {
-            temp = denode;
-            denode = denode->next;
-        }
+            denode = head;
+            head = head->next;
 
-        if (denode == NULL)
-        {
-            printf("\nLocation not found\n");
-            return head;
+            if (head != NULL)
+            {
+                head->prev = NULL;
+            }
+
+            free(denode);
         }
-        
-        temp->next = denode->next;
-        free(denode);
-        
+        else
+        {
+            temp = head;
+            denode = head->next;
+
+            int i;
+            for (int i = 2; i < location && denode != NULL; i++)
+            {
+                temp = denode;
+                denode = denode->next;
+            }
+
+            if (denode == NULL)
+            {
+                printf("\nLocation not found\n");
+                return head;
+            }
+
+            temp->next = denode->next;
+
+            if (denode->next != NULL)
+            {
+                denode->next->prev = temp;
+            }
+            free(denode);
+        }
     }
-    
+
     return head;
 }
 
 // delete last node
-node *delete_end(node *head){
+node *delete_end(node *head)
+{
     node *temp, *denode;
-
-    temp = head;
-    denode = head->next;
 
     if (head == NULL)
     {
-        printf("\nList Empty\n");
-        return head;
+        printf("\nList Empty!\n");
     }
-    else if(head->next == NULL) {
+    // Only one node in the list
+    else if (head->next == NULL)
+    {
         free(head);
         return NULL;
     }
-    else {
+    else
+    {
+        temp = head;
+        denode = head->next;
+
         while (denode->next != NULL)
         {
             temp = denode;
@@ -233,7 +296,7 @@ node *delete_end(node *head){
         }
 
         temp->next = NULL;
-        free(denode);        
+        free(denode);
     }
 
     return head;
@@ -249,7 +312,7 @@ int main()
     while (cont)
     {
 
-        printf("\n1.Create_NewNode / Insert_End\n2.Display\n3.Insert_Between\n4.Insert_First\n5.Delete_First\n6.Delete_Middle\n7.Delete_Last\nYour Choice: ");
+        printf("\n1.Create_NewNode / Insert_End\n2.Display\n3.Insert_Between\n4.Insert_First\n5.Delete_First\n6.Delete_Middle\n7.Delete_Last\n8.Reverse\nYour Choice: ");
         scanf("%d", &choice);
 
         switch (choice)
@@ -273,13 +336,17 @@ int main()
         case 5:
             head = delete_first(head);
             break;
-        
+
         case 6:
             head = delete_middle(head);
             break;
 
         case 7:
             head = delete_end(head);
+            break;
+
+        case 8:
+            Reverse_display(head);
             break;
 
         default:
