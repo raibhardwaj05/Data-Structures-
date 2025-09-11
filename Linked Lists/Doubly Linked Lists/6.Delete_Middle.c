@@ -42,7 +42,7 @@ node *delete_middle(node *head)
             denode = head->next;
 
             int i;
-            for (int i = 2; i < location && denode != NULL; i++)
+            for (int i = 2; i <= (location - 1) && denode != NULL; i++)
             {
                 temp = denode;
                 denode = denode->next;
