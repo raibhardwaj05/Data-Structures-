@@ -41,7 +41,7 @@ node *insert_middle(node *head)
         else
         {
             int i;
-            for (i = 1; i < (location - 1) && temp != NULL; i++)
+            for (i = 1; i < (location - 1) && temp->next != NULL; i++)
             {
                 temp = temp->next;
             }
