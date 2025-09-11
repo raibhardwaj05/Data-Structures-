@@ -34,7 +34,7 @@ node *delete_middle(node *head){
     
     else{
         int i = 2;
-        for (i = 2; i < (location) && temp != NULL; i++)
+        for (i = 2; i < (location) && temp->next != NULL; i++)
         {
             temp = denode;
             denode = denode->next;
