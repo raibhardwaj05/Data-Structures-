@@ -48,19 +48,82 @@ node *pop(node *top){
 		
 		free(temp);
 	}
+	printf("\n");
 	
 	return top;
 }
 
 void stacktop(node *top){
 	
+	if(top == NULL){
+		printf("\nStack Empty\n");
+	}
+	else{
+		printf("\n%d", top->data);
+	}
+	
+}
+
+void stackEmpty(node *top){
+	
+	if(top == NULL){
+		printf("\nStack Empty\n");
+	}
+	else{
+		printf("\nNot Empty\n");
+	}
+	
+}
+
+void display(node *top){
+	node *temp;
+	
+	if(top == NULL){
+		printf("\nStack Empty\n");
+	}
+	else{
+		temp = top;
+		while(temp != NULL){
+			printf("\n%d", temp->data);
+			temp = temp->prev;
+		}
+	}
 }
 
 void main(){
 	node *top;
 	top = NULL;
+	int choice, con = 1;
 	
-	top = push(top);
-	top = pop(top);
-	top = pop(top);
+	while(con == 1){
+		printf("\n1.push\n2.pop\n3.stack top\n4.stack empty\n5.display\nYour choice: ");
+		scanf("%d", &choice);
+		
+		switch(choice){
+			case 1:
+				top = push(top);
+				break;
+			
+			case 2:
+				top = pop(top);
+				break;
+			
+			case 3:
+				stacktop(top);
+				break;
+				
+			case 4:
+				stackEmpty(top);
+				break;
+				
+			case 5:
+				display(top);
+				break;
+				
+			default:
+				printf("\nDo you want to continue? (0/1): )");
+				scanf("%d", &con);
+				break;
+		}
+	}
 }
