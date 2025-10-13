@@ -23,12 +23,13 @@ void enqueue(){
         return;
     }
 
-    queue[++r] = val;
+    r = (r+1) % 5;
+    queue[r] = val;
     
 }
 
 void dequeue(){
-    if (f == -1 )
+    if (f == -1 && r == -1)
     {
         printf("\nQueue empty");
         return;
@@ -40,7 +41,8 @@ void dequeue(){
         return;
     }
 
-    printf("\ndequeue: %d", queue[f++]);
+    printf("\ndequeue: %d", queue[f]);
+    f = (f+1) % 5;
     
 }
 
