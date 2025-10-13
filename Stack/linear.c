@@ -28,7 +28,7 @@ void enqueue(){
 }
 
 void dequeue(){
-    if (f == -1)
+    if (f == -1 && r == -1)
     {
         printf("\nQueue empty");
         return;
