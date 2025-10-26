@@ -5,69 +5,41 @@
 typedef struct node
 {
     int data;
-    struct node *next; // self referencing structure
+    struct node *next;
 } node;
 
-// Insert new nodes at the end
-node *insert_end(node *head)
-{
-    node *temp, *newnode;
-
-    newnode = (node *)malloc(sizeof(node));
-    newnode->next = NULL; // to avoid garbage value
-
-    printf("Enter Data: ");
-    scanf("%d", &newnode->data);
-
-    temp = head;
-
-    if (head == NULL)
-    {
-        printf("\nNodes created...Inserting at beginning");
-        head = temp = newnode;
-    }
-    else
-    {
-        while (temp->next != NULL)
-        {
-            temp = temp->next;
-        }
-        temp->next = newnode;
-    }
-
-    return head;
-}
-
-// Create nodes
+// create node
 node *create_node(node *head)
 {
     node *temp, *newnode;
     int num_nodes;
 
-    printf("\nNumber of nodes to be created: ");
+    printf("\nEnter number of nodes: ");
     scanf("%d", &num_nodes);
 
+    printf("\n");
     while (num_nodes > 0)
     {
-
         newnode = (node *)malloc(sizeof(node));
-        newnode->next = NULL; // to avoid garbage value
+        newnode->next = NULL;
 
         printf("Enter Data: ");
         scanf("%d", &newnode->data);
 
         temp = head;
-
         if (head == NULL)
         {
             head = temp = newnode;
+            newnode->next = head;
         }
         else
         {
-            while (temp->next != NULL)
+            while (temp->next != head)
             {
                 temp = temp->next;
             }
+
+            newnode->next = head;
             temp->next = newnode;
         }
 
@@ -77,11 +49,10 @@ node *create_node(node *head)
     return head;
 }
 
-// insert node at first
+// insert in the beginning
 node *insert_first(node *head)
 {
     node *temp, *newnode;
-    int data;
 
     newnode = (node *)malloc(sizeof(node));
     newnode->next = NULL;
@@ -90,29 +61,35 @@ node *insert_first(node *head)
     scanf("%d", &newnode->data);
 
     temp = head;
-
     if (head == NULL)
     {
-        printf("\nCreating first node!\n");
+        printf("\nNo nodes created...Inserting at beginning");
         head = temp = newnode;
+        newnode->next = head;
     }
     else
     {
-        newnode->next = temp;
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = newnode;
+        newnode->next = head;
         head = newnode;
     }
 
     return head;
 }
 
-// insert node at middle
+// insert at a location
 node *insert_middle(node *head)
 {
     node *temp, *newnode;
+    int loc;
 
-    int location;
-    printf("\nEnter the location: ");
-    scanf("%d", &location);
+    printf("\nEnter location: ");
+    scanf("%d", &loc);
 
     newnode = (node *)malloc(sizeof(node));
     newnode->next = NULL;
@@ -121,36 +98,197 @@ node *insert_middle(node *head)
     scanf("%d", &newnode->data);
 
     temp = head;
-
     if (head == NULL)
     {
+        printf("\nNo nodes created...Inserting at beginning");
         head = temp = newnode;
-        printf("\nThis is 1st node created!");
+        newnode->next = head;
     }
     else
     {
-        if (location == 1)
+        int i;
+
+        if (loc == 1)
         {
-            printf("\nCreating node at 1st place");
-            newnode->next = head;
-            head = newnode;
-        }
-        else
-        {
-            int i;
-            for (i = 2; i < location - 1 && temp != NULL; i++)
+            while (temp->next != head)
             {
                 temp = temp->next;
             }
 
-            if (i < location - 1)
+            temp->next = newnode;
+            newnode->next = head;
+            head = newnode;
+
+            return head;
+        }
+        else
+        {
+            for (i = 1; i < loc - 1 && temp->next != head; i++)
             {
-                printf("\nLocation is beyond length, inserting at end");
+                temp = temp->next;
+            }
+
+            if (i != loc - 1)
+            {
+                printf("\nLocation not found");
             }
 
             newnode->next = temp->next;
             temp->next = newnode;
         }
+    }
+
+    return head;
+}
+
+// insert at end
+node *insert_end(node *head)
+{
+    node *temp, *newnode;
+
+    newnode = (node *)malloc(sizeof(node));
+    newnode->next = NULL;
+
+    printf("Enter Data: ");
+    scanf("%d", &newnode->data);
+
+    temp = head;
+    if (head == NULL)
+    {
+        printf("\nNo nodes created...inserting at beginning");
+        head = temp = newnode;
+        newnode->next = head;
+    }
+    else
+    {
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+
+        newnode->next = head;
+        temp->next = newnode;
+    }
+
+    return head;
+}
+
+// delete first
+node *delete_first(node *head)
+{
+    node *denode, *temp;
+
+    if (head == NULL)
+    {
+        printf("\nNo nodes created");
+        return head;
+    }
+
+    denode = head;
+
+    if (head->next == head)
+    {
+        free(head);
+        head = NULL;
+        printf("\nOnly node deleted. List is now empty.\n");
+        return head;
+    }
+    else
+    {
+        temp = head->next;
+
+        head = temp;
+
+        while (temp->next != denode)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = head;
+    }
+
+    free(denode);
+
+    return head;
+}
+
+// delete from a location
+node *delete_middle(node *head)
+{
+    node *temp, *denode;
+
+    int loc;
+    printf("Enter location to delete: ");
+    scanf("%d", &loc);
+
+    temp = head;
+
+    if (head == NULL)
+    {
+        printf("\nNo nodes created");
+    }
+    else if (loc == 1)
+    {
+        if (head->next == head)
+        {
+            free(head);
+            head = NULL;
+            printf("\nOnly node deleted. List is now empty.\n");
+            return head;
+        }
+
+        denode = head;
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+
+        head = head->next;
+        temp->next = head;
+        free(denode);
+    }
+    else
+    {
+        int i;
+        for (i = 1; i < loc - 1 && temp->next != head; i++)
+        {
+            temp = temp->next;
+        }
+
+        denode = temp->next;
+        temp->next = denode->next;
+        free(denode);
+    }
+
+    return head;
+}
+
+// Delete last
+node *delete_end(node *head)
+{
+    node *temp, *denode;
+
+    temp = head;
+
+    if (head == NULL)
+    {
+        printf("\nNo nodes created");
+    }
+    else if (temp->next == head)
+    {
+        free(head);
+        head = NULL;
+    }
+    else
+    {
+        while (temp->next->next != head)
+        {
+            temp = temp->next;
+        }
+
+        denode = temp->next;
+        temp->next = head;
+        free(denode);
     }
 
     return head;
@@ -164,117 +302,18 @@ void display(node *head)
 
     if (head == NULL)
     {
-        printf("\nNo Node is created");
+        printf("\nNo Nodes created");
     }
     else
     {
-        printf("\nData in the nodes: ");
-        while (temp != NULL)
+        printf("\nData: ");
+        do
         {
             printf("%d ", temp->data);
             temp = temp->next;
-        }
+        } while (temp != head);
         printf("\n");
     }
-}
-
-// delete first node
-node *delete_first(node *head)
-{
-    node *temp;
-
-    temp = head;
-
-    if (head == NULL)
-    {
-        printf("\nList Empty\n");
-    }
-    else
-    {
-        head = temp->next;
-        free(temp);
-    }
-
-    return head;
-}
-
-// delete from middle node
-node *delete_middle(node *head)
-{
-    node *temp, *denode;
-    int location;
-
-    temp = head;
-    denode = head->next;
-
-    printf("\nEnter the location: ");
-    scanf("%d", &location);
-
-    if (head == NULL)
-    {
-        printf("\nList Empty\n");
-        return head;
-    }
-
-    if (location == 1)
-    {
-        head = temp->next;
-        free(temp);
-    }
-
-    else
-    {
-        int i = 2;
-        for (i = 2; i < (location) && temp != NULL; i++)
-        {
-            temp = denode;
-            denode = denode->next;
-        }
-
-        if (denode == NULL)
-        {
-            printf("\nLocation not found\n");
-            return head;
-        }
-
-        temp->next = denode->next;
-        free(denode);
-    }
-
-    return head;
-}
-
-// delete last node
-node *delete_end(node *head)
-{
-    node *temp, *denode;
-
-    temp = head;
-    denode = head->next;
-
-    if (head == NULL)
-    {
-        printf("\nList Empty\n");
-        return head;
-    }
-    else if (head->next == NULL)
-    {
-        free(head);
-        return NULL;
-    }
-    else
-    {
-        while (denode->next != NULL)
-        {
-            temp = denode;
-            denode = denode->next;
-        }
-
-        temp->next = NULL;
-        free(denode);
-    }
-
-    return head;
 }
 
 int main()

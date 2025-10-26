@@ -9,8 +9,41 @@ typedef struct node
     struct node *prev; // self referencing structure
 } node;
 
-// Create nodes OR Insert new nodes at the end
-node *create_node_insert_end(node *head)
+// Insert new nodes at the end
+node *insert_end(node *head)
+{
+    node *temp, *newnode;
+
+    temp = head;
+
+    newnode = (node *)malloc(sizeof(node));
+    newnode->next = NULL;
+    newnode->prev = NULL;
+
+    printf("\nEnter Data: ");
+    scanf("%d", &newnode->data);
+
+    if (head == NULL)
+    {
+        printf("\nNo Nodes Created...Inserting at beginning");
+        head = temp = newnode;
+    }
+    else
+    {
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+
+        newnode->prev = temp;
+        temp->next = newnode;
+    }
+
+    return head;
+}
+
+// Create nodes
+node *create_node(node *head)
 {
     node *temp, *newnode;
     int num_nodes;
@@ -177,7 +210,7 @@ void Reverse_display(node *head)
 
         printf("\nReversed Data in the nodes: ");
         while (last != NULL)
-        {   
+        {
             printf("%d ", last->data);
             last = last->prev;
         }
@@ -312,13 +345,13 @@ int main()
     while (cont)
     {
 
-        printf("\n1.Create_NewNode / Insert_End\n2.Display\n3.Insert_Between\n4.Insert_First\n5.Delete_First\n6.Delete_Middle\n7.Delete_Last\n8.Reverse\nYour Choice: ");
+        printf("\n1.Create_NewNode\n2.Display\n3.Insert_Between\n4.Insert_First\n5.Delete_First\n6.Delete_Middle\n7.Delete_Last\n8.Reverse\n9.Insert_End\nYour Choice: ");
         scanf("%d", &choice);
 
         switch (choice)
         {
         case 1:
-            head = create_node_insert_end(head);
+            head = create_node(head);
             break;
 
         case 2:
@@ -347,6 +380,10 @@ int main()
 
         case 8:
             Reverse_display(head);
+            break;
+            
+        case 9:
+            head = insert_end(head);
             break;
 
         default:

@@ -6,27 +6,28 @@ typedef struct node
 {
     int data;
     struct node *next; // self referencing structure
+    struct node *prev; // self referencing structure
 } node;
 
-// Create nodes OR Insert new nodes at the end
-node *create_node_insert_end(node *head)
+// Create nodes
+node *create_node(node *head)
 {
     node *temp, *newnode;
     int num_nodes;
 
-    printf("\nNumber of nodes to be created: ");
+    printf("\nNumber of nodes?: ");
     scanf("%d", &num_nodes);
 
     while (num_nodes > 0)
     {
+        temp = head;
 
         newnode = (node *)malloc(sizeof(node));
-        newnode->next = NULL; // to avoid garbage value
+        newnode->next = NULL;
+        newnode->prev = NULL;
 
-        printf("Enter Data: ");
+        printf("\nEnter Data: ");
         scanf("%d", &newnode->data);
-
-        temp = head;
 
         if (head == NULL)
         {
@@ -38,9 +39,10 @@ node *create_node_insert_end(node *head)
             {
                 temp = temp->next;
             }
+
+            newnode->prev = temp;
             temp->next = newnode;
         }
-
         num_nodes--;
     }
 
