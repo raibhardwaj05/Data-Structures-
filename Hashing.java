@@ -5,17 +5,17 @@ public class Hashing {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // System.out.print("array size: ");
-        // int x = sc.nextInt();
+        System.out.print("array size: ");
+        int x = sc.nextInt();
 
-        // System.out.println("enter array elements: ");
-        // int[] arr = new int[x];
-        // for(int i = 0; i < x; i++){
-        //     arr[i] = sc.nextInt();
-        // }
+        System.out.println("enter array elements: ");
+        int[] arr = new int[x];
+        for(int i = 0; i < x; i++){
+            arr[i] = sc.nextInt();
+        }
         // hashnum(arr);
         // hashChar("bhardwaj");
-        // mapnum(arr);
+        mapnum(arr);
         // mapChar("asdgearyiwag");
 
 
@@ -122,5 +122,4 @@ public class Hashing {
         sc.close();
     }
 
-     
 }
