@@ -22,6 +22,7 @@ public class SelectionSort {
         sc.close();
     }
 
+    // display
     public static void showArray(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
             System.out.print(nums[i] + " ");
@@ -29,6 +30,7 @@ public class SelectionSort {
         System.out.println();
     }
 
+    // selectionSort
     public static void selectionSort(int[] nums) {
         for (int i = 0; i < nums.length - 1; i++) {
             int mini = i;
@@ -44,6 +46,7 @@ public class SelectionSort {
         showArray(nums);
     }
 
+    // bubble sort
     public static void bubbleSort(int[] nums) {
         boolean swap = false;
 
@@ -88,6 +91,7 @@ public class SelectionSort {
         recursiveBubble(nums, i, j + 1);
     }
 
+    // insertion sort
     public static void insertionSort(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
             int j = i;
@@ -106,6 +110,7 @@ public class SelectionSort {
         showArray(nums);
     }
 
+    // merge sort
     public static void merge(int[] nums, int st, int mid, int end) {
         int i = st;
         int j = mid + 1;
@@ -152,6 +157,7 @@ public class SelectionSort {
 
     }
 
+    // recursiveInsertion
     public static void insert(int[] nums, int j) {
         if (j == 0 || nums[j] >= nums[j - 1]) {
             return;
@@ -176,6 +182,7 @@ public class SelectionSort {
         recursiveInsertion(nums, i + 1);
     }
 
+    // quick sort
     public static int pivot(int[] nums, int low, int high) {
         int pivot = nums[low];
         int i = low;
