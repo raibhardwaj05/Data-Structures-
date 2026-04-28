@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="t"></p>
+<p id="d"></p>
+
+<input id="n" placeholder="Enter number">
+<button onclick="s()">Sqrt</button>
+<button onclick="r()">Random</button>
+
+<p id="o"></p>
+
+<script>
+setInterval(()=>{
+    let x = new Date();
+    t.innerText = x.toLocaleTimeString();
+    d.innerText = x.toDateString();
+},1000);
+
+function s(){
+    o.innerText = Math.sqrt(n.value);
+}
+
+function r(){
+    o.innerText = Math.floor(Math.random()*100)+1;
+}
+</script>
+
+</body>
+</html>

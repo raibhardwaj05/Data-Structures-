@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input id="n" placeholder="Enter numbers (e.g. 2,3,4)">
+<button onclick="run()">Calculate</button>
+
+<p id="r"></p>
+
+<script>
+function f(arr, op){
+    return arr.map(op);
+}
+
+let sq = x => x*x;
+let cb = x => x*x*x;
+
+function run(){
+    let a = document.getElementById('n').value.split(',').map(Number);
+
+    r.innerHTML =
+    "Square: " + f(a, sq) + "<br>" +
+    "Cube: " + f(a, cb);
+}
+</script>
+
+</body>
+</html>

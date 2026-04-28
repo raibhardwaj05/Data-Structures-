@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="toggle()">Toggle Mode</button><br><br>
+
+<form onsubmit="return validate()">
+<input id="e" placeholder="Email"><br>
+<input id="p" type="password" placeholder="Password"><br>
+<button>Submit</button>
+</form>
+
+<script>
+function toggle() {
+    document.body.style.background =
+        document.body.style.background == "black" ? "white" : "black";
+}
+
+function validate() {
+    let e = document.getElementById('e').value;
+    let p = document.getElementById('p').value;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) || p.length < 6) {
+        alert("Invalid Input");
+        return false;
+    }
+    alert("Success");
+    return true;
+}
+</script>
+
+</body>
+</html>

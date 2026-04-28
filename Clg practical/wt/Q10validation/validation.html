@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form id="f">
+<input id="n" placeholder="Name"><br>
+<input id="e" placeholder="Email"><br>
+<input id="p" type="password" placeholder="Password"><br>
+<button>Submit</button>
+</form>
+
+<script>
+f.onsubmit = x => {
+    x.preventDefault();
+
+    let n = f.n.value, e = f.e.value, p = f.p.value;
+
+    if (!n || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) || p.length < 6)
+        return alert("Invalid Input");
+
+    alert("Success");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input id="c" placeholder="City">
+<button onclick="f()">Get</button>
+
+<p id="r"></p>
+
+<script>
+function f(){
+    let c = document.getElementById('c').value;
+
+    let x = new XMLHttpRequest();
+    x.open("GET", "https://api.openweathermap.org/data/2.5/weather?q="+c+"&appid=YOUR_API_KEY&units=metric");
+
+    x.onload = () => {
+        let d = JSON.parse(x.responseText);
+        if(x.status==200)
+            r.innerText = d.main.temp+"°C, "+d.main.humidity+"%, "+d.weather[0].description;
+        else
+            r.innerText = "Error";
+    };
+
+    x.send();
+}
+</script>
+
+</body>
+</html>

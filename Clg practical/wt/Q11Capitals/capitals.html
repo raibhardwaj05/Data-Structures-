@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<select id="c" onchange="f()">
+<option value="">Select</option>
+<option>India</option>
+<option>USA</option>
+<option>UK</option>
+</select>
+
+<p id="r"></p>
+
+<script>
+let d = {India:"Delhi", USA:"Washington", UK:"London"};
+
+function f(){
+    let c = document.getElementById('c').value;
+    r.innerText = c ? d[c] : "";
+}
+</script>
+
+</body>
+</html>

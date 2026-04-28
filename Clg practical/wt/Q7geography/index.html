@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<select id="c" onchange="f()">
+<option value="">Select</option>
+<option>India</option>
+<option>France</option>
+<option>Japan</option>
+</select>
+
+<p id="r"></p>
+<img id="i" width="120">
+
+<script>
+let d = {
+    India:{cap:"Delhi", code:"in"},
+    France:{cap:"Paris", code:"fr"},
+    Japan:{cap:"Tokyo", code:"jp"}
+};
+
+function f(){
+    let c = document.getElementById('c').value;
+    if(!c) return r.innerText="", i.src="";
+
+    r.innerText = d[c].cap;
+    i.src = "https://flagcdn.com/w80/"+d[c].code+".png";
+}
+</script>
+
+</body>
+</html>
